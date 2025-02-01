@@ -3,7 +3,6 @@
 import { Message } from 'ai'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import 'github-markdown-css'
 import rehypeHighlight from 'rehype-highlight'
 import 'highlight.js/styles/github-dark.css'
 
@@ -33,36 +32,32 @@ export function MessageList({ messages }: MessageListProps) {
                 : 'bg-gray-700 text-gray-100'
             }`}
           >
-            <div className="markdown-body bg-transparent !text-inherit">
+            <div className="markdown-body dark">
               <ReactMarkdown 
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeHighlight]}
                 components={{
-                  // Tables
-                  table: ({node, ...props}) => (
+                  table: ({...props}) => (
                     <div className="overflow-auto">
                       <table {...props} className="border-collapse border border-gray-600 my-4" />
                     </div>
                   ),
-                  th: ({node, ...props}) => (
+                  th: ({...props}) => (
                     <th {...props} className="border border-gray-600 px-4 py-2 bg-gray-800" />
                   ),
-                  td: ({node, ...props}) => (
+                  td: ({...props}) => (
                     <td {...props} className="border border-gray-600 px-4 py-2" />
                   ),
-                  // Links
-                  a: ({node, ...props}) => (
+                  a: ({...props}) => (
                     <a {...props} className="text-blue-400 hover:text-blue-300 underline" />
                   ),
-                  // Lists
-                  ul: ({node, ...props}) => (
+                  ul: ({...props}) => (
                     <ul {...props} className="list-disc pl-6 mb-4 space-y-2" />
                   ),
-                  ol: ({node, ...props}) => (
+                  ol: ({...props}) => (
                     <ol {...props} className="list-decimal pl-6 mb-4 space-y-2" />
                   ),
-                  // Code blocks
-                  code: ({node, inline, className, children, ...props}) => {
+                  code: ({inline, className, children, ...props}) => {
                     const match = /language-(\w+)/.exec(className || '')
                     return !inline && match ? (
                       <div className="relative group">

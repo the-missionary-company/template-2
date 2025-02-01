@@ -18,12 +18,7 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
@@ -60,4 +55,50 @@ body {
 
 .markdown-body hr {
   background-color: #404040 !important;
+}
+
+.markdown-body.dark {
+  color: #e5e7eb !important;
+  background-color: transparent !important;
+}
+
+.markdown-body.dark pre {
+  background-color: #111827 !important;
+}
+
+.markdown-body.dark code {
+  color: #e5e7eb !important;
+  background-color: #1f2937 !important;
+}
+
+.markdown-body.dark table tr {
+  background-color: transparent !important;
+  border-color: #374151 !important;
+}
+
+.markdown-body.dark table tr:nth-child(2n) {
+  background-color: rgba(255,255,255,0.05) !important;
+}
+
+.markdown-body.dark img {
+  background-color: transparent !important;
+}
+
+.markdown-body.dark hr {
+  background-color: #374151 !important;
+}
+
+.markdown-body.dark blockquote {
+  color: #9ca3af !important;
+  border-left-color: #374151 !important;
+}
+
+.markdown-body.dark h1,
+.markdown-body.dark h2,
+.markdown-body.dark h3,
+.markdown-body.dark h4,
+.markdown-body.dark h5,
+.markdown-body.dark h6 {
+  color: #e5e7eb !important;
+  border-bottom-color: #374151 !important;
 }
