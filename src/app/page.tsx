@@ -5,7 +5,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-8">
       <div>
         <h2 className="text-2xl font-semibold text-center border p-4 font-mono rounded-md">
-          Hi started by choosing a template path from the /paths/ folder.
+          Change started by choosing a template path from the /paths/ folder.
         </h2>
       </div>
       <div>
