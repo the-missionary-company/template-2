@@ -2,6 +2,10 @@
 
 import { Message } from 'ai'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import 'github-markdown-css'
+import rehypeHighlight from 'rehype-highlight'
+import 'highlight.js/styles/github-dark.css'
 
 type MessageListProps = {
   messages: Message[]
@@ -29,33 +33,65 @@ export function MessageList({ messages }: MessageListProps) {
                 : 'bg-gray-700 text-gray-100'
             }`}
           >
-            <ReactMarkdown 
-              className="prose prose-invert max-w-none prose-p:leading-relaxed prose-pre:bg-gray-800 prose-pre:p-4 prose-pre:rounded-md"
-              components={{
-                // Customize heading styles
-                h1: ({node, ...props}) => <h1 {...props} className="text-2xl font-bold mb-4 mt-6" />,
-                h2: ({node, ...props}) => <h2 {...props} className="text-xl font-bold mb-3 mt-5" />,
-                h3: ({node, ...props}) => <h3 {...props} className="text-lg font-bold mb-2 mt-4" />,
-                // Style lists
-                ul: ({node, ...props}) => <ul {...props} className="list-disc pl-4 mb-4 space-y-2" />,
-                ol: ({node, ...props}) => <ol {...props} className="list-decimal pl-4 mb-4 space-y-2" />,
-                // Style paragraphs
-                p: ({node, ...props}) => <p {...props} className="mb-4 last:mb-0" />,
-                // Style code blocks
-                code: ({node, inline, ...props}) => 
-                  inline ? (
-                    <code {...props} className="bg-gray-800 px-1.5 py-0.5 rounded text-sm" />
-                  ) : (
-                    <code {...props} className="block bg-gray-800 p-4 rounded-md text-sm overflow-x-auto" />
+            <div className="markdown-body bg-transparent !text-inherit">
+              <ReactMarkdown 
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeHighlight]}
+                components={{
+                  // Tables
+                  table: ({node, ...props}) => (
+                    <div className="overflow-auto">
+                      <table {...props} className="border-collapse border border-gray-600 my-4" />
+                    </div>
                   ),
-                // Style blockquotes
-                blockquote: ({node, ...props}) => (
-                  <blockquote {...props} className="border-l-4 border-gray-500 pl-4 italic my-4" />
-                ),
-              }}
-            >
-              {message.content}
-            </ReactMarkdown>
+                  th: ({node, ...props}) => (
+                    <th {...props} className="border border-gray-600 px-4 py-2 bg-gray-800" />
+                  ),
+                  td: ({node, ...props}) => (
+                    <td {...props} className="border border-gray-600 px-4 py-2" />
+                  ),
+                  // Links
+                  a: ({node, ...props}) => (
+                    <a {...props} className="text-blue-400 hover:text-blue-300 underline" />
+                  ),
+                  // Lists
+                  ul: ({node, ...props}) => (
+                    <ul {...props} className="list-disc pl-6 mb-4 space-y-2" />
+                  ),
+                  ol: ({node, ...props}) => (
+                    <ol {...props} className="list-decimal pl-6 mb-4 space-y-2" />
+                  ),
+                  // Code blocks
+                  code: ({node, inline, className, children, ...props}) => {
+                    const match = /language-(\w+)/.exec(className || '')
+                    return !inline && match ? (
+                      <div className="relative group">
+                        <code
+                          className={`${className} block overflow-x-auto p-4 bg-gray-900 rounded-md text-sm`}
+                          {...props}
+                        >
+                          {children}
+                        </code>
+                        <button
+                          onClick={() => navigator.clipboard.writeText(String(children))}
+                          className="absolute top-2 right-2 p-1 rounded bg-gray-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                          title="Copy code"
+                        >
+                          📋
+                        </button>
+                      </div>
+                    ) : (
+                      <code className="bg-gray-900 px-1.5 py-0.5 rounded text-sm" {...props}>
+                        {children}
+                      </code>
+                    )
+                  },
+                }}
+                className="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+              >
+                {message.content}
+              </ReactMarkdown>
+            </div>
           </div>
         </div>
       ))}

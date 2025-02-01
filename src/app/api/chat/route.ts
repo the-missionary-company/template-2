@@ -39,17 +39,14 @@ export async function POST(req: Request) {
     const { messages, model } = await req.json()
     let stream
 
-    // Add system message to the beginning of the conversation
-    const messagesWithSystem = [
-      { role: 'system', content: SYSTEM_MESSAGE },
-      ...messages
-    ]
-
     if (model === 'openai') {
       try {
         const response = await openai.chat.completions.create({
           model: 'o3-mini-2025-01-31',
-          messages: messagesWithSystem,
+          messages: [
+            { role: 'system', content: SYSTEM_MESSAGE },
+            ...messages
+          ],
           stream: true,
         })
         stream = OpenAIStream(response)
@@ -69,13 +66,10 @@ export async function POST(req: Request) {
         const claudeModel = CLAUDE_MODELS[model as keyof typeof CLAUDE_MODELS] || CLAUDE_MODELS['claude-sonnet']
         const response = await anthropic.messages.create({
           model: claudeModel,
-          messages: messagesWithSystem.map((m: any) => ({
-            role: m.role,
-            content: m.content
-          })),
+          messages: messages.filter((m: any) => m.role !== 'system'), // Remove system messages from the array
           max_tokens: 4096,
+          system: SYSTEM_MESSAGE, // Pass system message separately
           stream: true,
-          system: SYSTEM_MESSAGE, // Anthropic also accepts system message as a separate parameter
         })
         stream = AnthropicStream(response)
       } catch (error: any) {

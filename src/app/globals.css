@@ -31,3 +31,33 @@ body {
     text-wrap: balance;
   }
 }
+
+.markdown-body {
+  background-color: transparent !important;
+  color: inherit !important;
+  font-family: inherit !important;
+}
+
+.markdown-body pre {
+  background-color: #1a1a1a !important;
+}
+
+.markdown-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
+.markdown-body table tr {
+  background-color: transparent !important;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: rgba(255,255,255,0.05) !important;
+}
+
+.markdown-body img {
+  background-color: transparent !important;
+}
+
+.markdown-body hr {
+  background-color: #404040 !important;
+}
