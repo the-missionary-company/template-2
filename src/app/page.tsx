@@ -1,66 +1,48 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/hooks/useAuth';
-import ChatInterface from '@/app/components/ChatInterface';
-import ConversationHistory from '@/app/components/ConversationHistory';
-import ProfileSection from '@/app/components/ProfileSection';
-import LoginButton from '@/app/components/LoginButton';
+import Link from "next/link";
 
 export default function Home() {
-  const { user, loading, error } = useAuth();
-  const router = useRouter();
-
-  // Show error state
-  if (error) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center p-4">
-        <div className="text-red-600 mb-4">Error: {error}</div>
-        <LoginButton />
-      </div>
-    );
-  }
-
-  // Show loading state
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
-      </div>
-    );
-  }
-
-  // If not logged in, show login button
-  if (!user) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center p-4">
-        <h1 className="mb-8 text-3xl font-bold">Welcome to ThoughtPartner</h1>
-        <LoginButton />
-      </div>
-    );
-  }
-
-  // Main app layout
   return (
-    <div className="flex min-h-screen">
-      {/* Left sidebar - Conversation History */}
-      <div className="w-64 bg-gray-50 p-4 border-r">
-        <ConversationHistory />
+    <main className="flex min-h-screen flex-col items-center justify-between p-8">
+      <div>
+        <h2 className="text-2xl font-semibold text-center border p-4 font-mono rounded-md">
+          Hi started by choosing a template path from the /paths/ folder.
+        </h2>
       </div>
-
-      {/* Main chat area */}
-      <div className="flex-1 flex flex-col">
-        {/* Profile section at top */}
-        <div className="p-4 border-b">
-          <ProfileSection />
+      <div>
+        <h1 className="text-6xl font-bold text-center">Make anything you imagine 🪄</h1>
+        <h2 className="text-2xl text-center font-light text-gray-500 pt-4">
+          This whole page will be replaced when you run your template path.
+        </h2>
+      </div>
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
+          <h3 className="text-xl font-semibold">AI Chat App</h3>
+          <p className="mt-2 text-sm text-gray-600">
+            An intelligent conversational app powered by AI models, featuring real-time responses
+            and seamless integration with Next.js and various AI providers.
+          </p>
         </div>
-
-        {/* Chat interface */}
-        <div className="flex-1 p-4">
-          <ChatInterface />
+        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
+          <h3 className="text-xl font-semibold">AI Image Generation App</h3>
+          <p className="mt-2 text-sm text-gray-600">
+            Create images from text prompts using AI, powered by the Replicate API and Next.js.
+          </p>
+        </div>
+        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
+          <h3 className="text-xl font-semibold">Social Media App</h3>
+          <p className="mt-2 text-sm text-gray-600">
+            A feature-rich social platform with user profiles, posts, and interactions using
+            Firebase and Next.js.
+          </p>
+        </div>
+        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
+          <h3 className="text-xl font-semibold">Voice Notes App</h3>
+          <p className="mt-2 text-sm text-gray-600">
+            A voice-based note-taking app with real-time transcription using Deepgram API, 
+            Firebase integration for storage, and a clean, simple interface built with Next.js.
+          </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
